@@ -21,7 +21,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch spriteBatch;
 	BitmapFont bitmapFont;
 
-	String str = "Point counter!";
+	String str = "0";
 
 	int pointCounter = 0;
 	
@@ -33,6 +33,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		obstacles = new Obstacles();
 		gameOver = false;
 		restartTexture = new Texture("RestartBtn.png");
+
+		bitmapFont = new BitmapFont();
+		bitmapFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		bitmapFont.getData().setScale(3);
 	}
 
 	@Override
@@ -48,20 +52,18 @@ public class MyGdxGame extends ApplicationAdapter {
 //		font.draw(batch, "Sample Text", 0,0);
 
 
-		spriteBatch = new SpriteBatch();
-		bitmapFont = new BitmapFont();
-		bitmapFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-		bitmapFont.getData().setScale(3);
-		spriteBatch.begin();
+		//spriteBatch = new SpriteBatch();
+		//spriteBatch.begin();
 		bitmapFont.draw(batch, str, 50, 550);
-		spriteBatch.end();
+		//spriteBatch.end();
 
 
 		if (!gameOver){
 			bird.render(batch); //также рендерим птицу
 		} else {
 			batch.draw(restartTexture, 200,200);
-			System.out.println("COMPLETE! MI PROLETELI: " + pointCounter);
+			String resultLabel = "COMPLETE! Total points: " + String.valueOf(pointCounter);
+			bitmapFont.draw(batch, resultLabel, 120, 100);
 		}
 
 		batch.end();
@@ -90,9 +92,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		for (int i = 0; i < 4; i++) {
 			if (bird.position.x == obstacles.obs[i].position.x + 50){
 				//System.out.println("PROLETELI NAHUI " + i);
-				pointCounter++;
+				if (!gameOver){
+					pointCounter++;
+				}
 				str = String.valueOf(pointCounter);
-				System.out.println("PROLETELI NAHUI " + pointCounter);
+				//System.out.println("Points: " + pointCounter);
 			}
 		}
 
