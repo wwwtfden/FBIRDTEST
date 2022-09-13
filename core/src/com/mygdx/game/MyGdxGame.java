@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.w3c.dom.Text;
@@ -16,6 +17,11 @@ public class MyGdxGame extends ApplicationAdapter {
 	Obstacles obstacles;
 	boolean gameOver;
 	Texture restartTexture;
+
+	SpriteBatch spriteBatch;
+	BitmapFont bitmapFont;
+
+	String str = "Point counter!";
 
 	int pointCounter = 0;
 	
@@ -37,6 +43,20 @@ public class MyGdxGame extends ApplicationAdapter {
 		//batch.draw(img, 0, 0); //отрисовка фоновой картинки с параметрами начальных координат (с левого НИЖНЕГО угла)
 		bg.render(batch); //рендерим бэкграунд при помощи batch
 		obstacles.render(batch);
+
+//		BitmapFont font = new BitmapFont(Gdx.files.internal("data/rayanfont.fnt"), false);
+//		font.draw(batch, "Sample Text", 0,0);
+
+
+		spriteBatch = new SpriteBatch();
+		bitmapFont = new BitmapFont();
+		bitmapFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+		bitmapFont.getData().setScale(3);
+		spriteBatch.begin();
+		bitmapFont.draw(batch, str, 50, 550);
+		spriteBatch.end();
+
+
 		if (!gameOver){
 			bird.render(batch); //также рендерим птицу
 		} else {
@@ -71,6 +91,7 @@ public class MyGdxGame extends ApplicationAdapter {
 			if (bird.position.x == obstacles.obs[i].position.x + 50){
 				//System.out.println("PROLETELI NAHUI " + i);
 				pointCounter++;
+				str = String.valueOf(pointCounter);
 				System.out.println("PROLETELI NAHUI " + pointCounter);
 			}
 		}
